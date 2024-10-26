@@ -101,4 +101,14 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     * 启用或禁用员工接口
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用或禁用员工账号")
+    public Result switchEmployeeStatus(@PathVariable Integer status,Long id){
+        log.info("修改员工状态参数，员工状态为：{}，修改员工的ID为：{}",status,id);
+        employeeService.switchStatus(status,id);
+        return Result.success();
+    }
 }
