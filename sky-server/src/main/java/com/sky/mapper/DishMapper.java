@@ -1,8 +1,10 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
 import com.sky.annotation.Autofill;
 import com.sky.entity.Dish;
 import com.sky.enumeration.OperationType;
+import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -23,4 +25,36 @@ public interface DishMapper {
      */
     @Autofill(OperationType.INSERT)
     void insertDish(Dish dish);
+
+    /**
+     * 菜品分页查询
+     * @param categoryId
+     * @param name
+     * @param status
+     * @return
+     */
+    Page<DishVO> selectByCateidNameAndStatus(Integer categoryId, String name, Integer status);
+
+    /**
+     * 菜品修改
+     * @param dish
+     */
+    @Autofill(OperationType.UPDATE)
+    void updateDish(Dish dish);
+
+    /**
+     * 批量删除菜品
+     * @param ids
+     */
+    void delete(Long[] ids);
+
+    /**
+     * 根据Id选择菜品
+     * @param id
+     * @return
+     */
+    @Select("select * from dish where id = #{id}")
+    Dish selectById(Long id);
+
+
 }

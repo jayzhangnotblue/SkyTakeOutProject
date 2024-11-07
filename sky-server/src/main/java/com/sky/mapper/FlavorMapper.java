@@ -1,9 +1,6 @@
 package com.sky.mapper;
 
-import com.sky.annotation.Autofill;
-import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
-import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,4 +14,24 @@ public interface FlavorMapper {
      */
 
     void insertFlavor(List<DishFlavor> flavors);
+
+    /**
+     * 修改口味
+     * @param flavors
+     */
+    void updateFlavoers(List<DishFlavor> flavors);
+
+    /**
+     * 删除菜品对应的口味
+     * @param ids
+     */
+    void delete(Long[] ids);
+
+    /**
+     * 根据菜品ID选择对应的口味
+     * @return
+     */
+    @Select("select * from dish_flavor where dish_id = #{id}")
+    List<DishFlavor> selectById(Long id);
+
 }
