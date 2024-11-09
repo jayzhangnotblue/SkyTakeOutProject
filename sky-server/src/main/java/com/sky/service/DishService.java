@@ -2,9 +2,10 @@ package com.sky.service;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
-import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
+
+import java.util.List;
 
 /**
  * 菜品相关接口
@@ -40,4 +41,16 @@ public interface DishService {
      * @return
      */
     DishVO selectByid(Long id);
+
+    /**
+     * 根据CategoryId查询菜品
+     * @return
+     */
+    List<DishVO> selectByCategory(Long categoryId);
+
+    /**
+     * 菜品起售、停售
+     * @param status
+     */
+    void switchStatus(Long id,Integer status);
 }

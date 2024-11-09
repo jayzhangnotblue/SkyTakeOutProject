@@ -142,4 +142,23 @@ public class DishServiceImp implements DishService {
         dishVO.setFlavors(list);
         return dishVO;
     }
+
+    /**
+     * 根据分类ID查询菜品
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<DishVO> selectByCategory(Long categoryId) {
+        List<DishVO> list = dishMapper.selectByCategoryId(categoryId);
+        return list;
+    }
+
+    /**
+     * 菜品起售、停售
+     */
+    @Override
+    public void switchStatus(Long id,Integer status) {
+        dishMapper.updateDishStatus(id,status);
+    }
 }

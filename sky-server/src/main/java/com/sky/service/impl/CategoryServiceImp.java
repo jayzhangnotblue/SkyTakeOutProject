@@ -62,6 +62,10 @@ public class CategoryServiceImp implements CategoryService {
 
     }
 
+    /**
+     * 更新分类
+     * @param categoryDTO
+     */
     @Override
     public void updateCategory(CategoryDTO categoryDTO) {
         Category category = new Category();

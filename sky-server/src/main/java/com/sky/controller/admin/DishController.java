@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 菜品相关接口
  */
@@ -43,6 +45,7 @@ public class DishController {
     @GetMapping("/page")
     @ApiOperation("菜品分页查询")
     public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
+        log.info("菜品分页查询:{}",dishPageQueryDTO);
         PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
         return Result.success(pageResult);
     }
@@ -77,5 +80,26 @@ public class DishController {
         log.info("根据id查询菜品id；{}",id);
         DishVO dishVO = dishService.selectByid(id);
         return Result.success(dishVO);
+    }
+
+    /**
+     * 根据分类ID查询菜品
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据分类ID查询菜品")
+    public Result<List<DishVO>> queryByCategoryId(Long categoryId){
+        log.info("genj分类ID查询菜品:{}",categoryId);
+        List<DishVO> list = dishService.selectByCategory(categoryId);
+        return Result.success(list);
+    }
+    /**
+     * 菜品起售、停售
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品起售、停售")
+    public Result switchStatus( Long id,@PathVariable Integer status){
+        log.info("菜品起售、停售,id:{},status:{}",id,status);
+        dishService.switchStatus(id,status);
+        return Result.success();
     }
 }
