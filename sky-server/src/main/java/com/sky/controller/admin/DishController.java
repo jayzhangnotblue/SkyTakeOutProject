@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜品相关接口
@@ -25,7 +27,11 @@ import java.util.List;
 public class DishController {
 
     @Autowired
-    DishService dishService;
+    private DishService dishService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     /**
      * 新增菜品带口味
      * @param dishDTO
@@ -36,6 +42,8 @@ public class DishController {
     public Result saveDishWithFlavor(@RequestBody DishDTO dishDTO){
         log.info("新增菜品：{}",dishDTO);
         dishService.saveDish(dishDTO);
+
+        cleanCache("dish_"+dishDTO.getCategoryId());
         return Result.success();
     }
 
@@ -58,6 +66,8 @@ public class DishController {
     public Result updataDishWithFlavor(@RequestBody DishDTO dishDTO){
         log.info("修改菜品，参数为：{}",dishDTO);
         dishService.updateDish(dishDTO);
+        //删除所有dish开头的缓存
+        cleanCache("dish*");
         return Result.success();
     }
     /**
@@ -68,6 +78,8 @@ public class DishController {
     public Result deleteDish(Long[] ids){
         log.info("批量删除菜品：{}",ids);
         dishService.deleteByArra(ids);
+        //删除所有dish开头的缓存
+        cleanCache("dish*");
         return Result.success();
     }
 
@@ -88,7 +100,7 @@ public class DishController {
     @GetMapping("/list")
     @ApiOperation("根据分类ID查询菜品")
     public Result<List<DishVO>> queryByCategoryId(Long categoryId){
-        log.info("genj分类ID查询菜品:{}",categoryId);
+        log.info("根据分类ID查询菜品:{}",categoryId);
         List<DishVO> list = dishService.selectByCategory(categoryId);
         return Result.success(list);
     }
@@ -100,6 +112,16 @@ public class DishController {
     public Result switchStatus( Long id,@PathVariable Integer status){
         log.info("菜品起售、停售,id:{},status:{}",id,status);
         dishService.switchStatus(id,status);
+        //删除所有dish开头的缓存
+        cleanCache("dish*");
         return Result.success();
+    }
+
+    /**
+     * 删除缓存
+     */
+    public void cleanCache(String key){
+        Set keys = redisTemplate.keys(key);
+        redisTemplate.delete(keys);
     }
 }

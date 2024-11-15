@@ -4,8 +4,7 @@ import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
-import com.sky.service.SermealService;
-import com.sky.service.impl.SetmealServiceImp;
+import com.sky.service.SetmealService;
 import com.sky.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class SetmealController {
 
     @Autowired
-    SermealService sermealService;
+    SetmealService setmealService;
 
     /**
      * 新增套餐
@@ -34,7 +33,7 @@ public class SetmealController {
     @ApiOperation("新增套餐")
     public Result saveSetmeal(@RequestBody SetmealDTO setmealDTO){
         log.info("新建套餐:{}",setmealDTO);
-        sermealService.saveWithDishes(setmealDTO);
+        setmealService.saveWithDishes(setmealDTO);
         return Result.success();
     }
 
@@ -45,7 +44,7 @@ public class SetmealController {
     @ApiOperation("套餐分页查询")
     public Result<PageResult> pageQuery(SetmealPageQueryDTO setmealPageQueryDTO){
         log.info("套餐分页查询：{}",setmealPageQueryDTO);
-        PageResult pageResult = sermealService.pageQuery(setmealPageQueryDTO);
+        PageResult pageResult = setmealService.pageQuery(setmealPageQueryDTO);
         return Result.success(pageResult);
     }
 
@@ -56,7 +55,7 @@ public class SetmealController {
     @ApiOperation("批量删除套餐")
     public Result deleteBatch(Long[] ids){
         log.info("批量删除套餐:{}",ids);
-        sermealService.deleteBatch(ids);
+        setmealService.deleteBatch(ids);
         return Result.success();
     }
 
@@ -67,7 +66,7 @@ public class SetmealController {
     @ApiOperation("根据Id查询套餐")
     public Result<SetmealVO> selectById(@PathVariable Long id){
         log.info("根据Id查询套餐：{}",id);
-        SetmealVO setmealVO =sermealService.selectSetmealVOById(id);
+        SetmealVO setmealVO = setmealService.selectSetmealVOById(id);
         return Result.success(setmealVO);
     }
 
@@ -78,7 +77,7 @@ public class SetmealController {
     @ApiOperation("修改套餐")
     public Result updateSetmealWithDish(@RequestBody SetmealDTO setmealDTO ){
         log.info("修改套餐：{}",setmealDTO);
-        sermealService.updateSetmeal(setmealDTO);
+        setmealService.updateSetmeal(setmealDTO);
         return Result.success();
     }
 
@@ -89,7 +88,7 @@ public class SetmealController {
     @ApiOperation("起售停售套餐")
     public Result swichStatus(Long id ,@PathVariable Integer status){
         log.info("起售停售套餐,id:{},status:{}",id,status);
-        sermealService.swtchStatus(id,status);
+        setmealService.swtchStatus(id,status);
         return Result.success();
     }
 }

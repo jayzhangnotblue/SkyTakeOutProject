@@ -27,6 +27,7 @@
         order by d.create_time desc
     </select>
 
+
     <update id="updateDish">
         update dish
         <set>
@@ -50,4 +51,18 @@
             #{id}
         </foreach>
     </delete>
+
+
+    <select id="list" resultType="com.sky.entity.Dish">
+        select * from dish
+        <where>
+            <if test="name!=null and name!=''">and name = #{name}</if>
+            <if test="categoryId!=null">and category_id = #{categoryId}</if>
+            <if test="price!=null">and price = #{price}</if>
+            <if test="image!=null and image!=''">and image = #{image}</if>
+            <if test="description!=null and description!=''">and description = #{description}</if>
+            <if test="status!=null">and status = #{status}</if>
+        </where>
+    </select>
+
 </mapper>
