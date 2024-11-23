@@ -121,6 +121,5 @@ public class ShoppingCartServiceImp implements ShoppingCartService {
             shoppingCartMapper.updatenum(shoppingCart1);
         }
 
-
     }
 }

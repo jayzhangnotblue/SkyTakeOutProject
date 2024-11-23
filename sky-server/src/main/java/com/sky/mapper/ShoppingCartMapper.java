@@ -1,18 +1,9 @@
 package com.sky.mapper;
 
-import com.github.pagehelper.Page;
-import com.sky.annotation.Autofill;
-import com.sky.dto.SetmealDTO;
-import com.sky.entity.Setmeal;
 import com.sky.entity.ShoppingCart;
-import com.sky.enumeration.OperationType;
-import com.sky.vo.DishItemVO;
-import com.sky.vo.SetmealVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
@@ -51,4 +42,10 @@ public interface ShoppingCartMapper {
      * @param shoppingCart
      */
     void deleteByDishidOrSetmealId(ShoppingCart shoppingCart);
+
+    /**
+     * 批量加入购物车
+     * @param shoppingCartList
+     */
+    void insertBatch(List<ShoppingCart> shoppingCartList);
 }
